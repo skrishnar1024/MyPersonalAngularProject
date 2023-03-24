@@ -1,5 +1,5 @@
 import { Component,OnInit, Input } from '@angular/core';
-import { RoomsList} from './rooms';
+import { RoomList } from '../room';
 @Component({
   selector: 'app-rooms-list',
   templateUrl: './rooms-list.component.html',
@@ -7,7 +7,7 @@ import { RoomsList} from './rooms';
 })
 export class RoomsListComponent implements OnInit {
 
-@Input() rooms: RoomsList[] = [];
+@Input() rooms: RoomList[] = [];
 constructor(){}
 ngOnInit() : void{}
 }
