@@ -1,13 +1,5 @@
-<h1> Welcome to {{hotelName}}</h1>
-<div [hidden]="hideRooms">
-  Number of Rooms:
-  <div [ngStyle]="rooms.availableRooms? {'color':'Green'}:{'color':'Black'}"
-       [innerText]="numberOfRooms">{{rooms.availableRooms ?? "No Rooms"}}</div>
-<!--<div>{{roomList | json}}</div>-->
 
-</div>
-<div *ngIf="rooms?.availableRooms">
-<!--  <div *ngFor="room in {{roomList}}"> </div>-->
+<div *ngFor="room in {{roomList}}"> </div>
   Rooms List
   <table class="table">
     <tr>
@@ -20,7 +12,7 @@
       <th>Rating</th>
     </tr>
     <tr [ngClass]="e? 'even':'odd'"
-        *ngFor="let room of roomList | slice: 0:3 ;let e= even; let o= odd ;let i=index">
+        *ngFor="let room of rooms | slice: 0:3 ;let e= even; let o= odd ;let i=index">
       <td>{{i}}</td>
       <td>{{e? "Even":"Odd"}}</td>
       <td>{{room.roomNumber}}</td>
@@ -31,9 +23,3 @@
       <td>{{room.rating | number: '1.1' }}</td>
     </tr>
   </table>
-</div>
-
-
-
-<button (click)="toggle()">Toggle</button>
-
