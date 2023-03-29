@@ -1,6 +1,7 @@
-import { AfterViewChecked, AfterViewInit, Component, DoCheck, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, DoCheck, OnInit, QueryList, SkipSelf, ViewChild, ViewChildren } from '@angular/core';
 import { Room, RoomList } from './room';
 import { HeaderComponent } from '../header/header.component';
+import { RoomsService } from './services/rooms.service';
 
 @Component({
   selector: 'app-rooms',
@@ -27,41 +28,13 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterView
 
   @ViewChildren(HeaderComponent) headerChildrenComponent!: QueryList<HeaderComponent>;
 
-  constructor() { }
+  //roomService = new RoomsService();
+
+   constructor(@SkipSelf() private roomsService: RoomsService ) {}
 
   ngOnInit(): void {
     //console.log(this.headerComponent)
-    this.roomList = [{
-      roomNumber: 1,
-      roomType: 'Deluxe Room',
-      amenities: 'AC, TV, WI-FI',
-      price: 500,
-      photos: 'https://img2.10bestmedia.com/Images/Photos/378649/Park-Hyatt-New-York-Manhattan-Sky-Suite-Master-Bedroom-low-res_54_990x660.jpg',
-      checkinTime: new Date('27-March-2023'),
-      checkoutTime: new Date('28-March-2023'),
-      rating: 4.5
-    },
-    {
-      roomNumber: 2,
-      roomType: 'Deluxe Room A',
-      amenities: 'AC, TV, WI-FI, Kitchen',
-      price: 1000,
-      photos: 'https://img2.10bestmedia.com/Images/Photos/378649/Park-Hyatt-New-York-Manhattan-Sky-Suite-Master-Bedroom-low-res_54_990x660.jpg',
-      checkinTime: new Date('27-March-2023'),
-      checkoutTime: new Date('28-March-2023'),
-      rating: 4.2,
-
-    },
-    {
-      roomNumber: 3,
-      roomType: 'Deluxe Room Suit',
-      amenities: 'AC, TV, WI-FI, Kitchen, Bath',
-      price: 1500,
-      photos: 'https://img2.10bestmedia.com/Images/Photos/378649/Park-Hyatt-New-York-Manhattan-Sky-Suite-Master-Bedroom-low-res_54_990x660.jpg',
-      checkinTime: new Date('27-March-2023'),
-      checkoutTime: new Date('28-March-2023'),
-      rating: 5
-    }]
+    this.roomList = this.roomsService.getRooms();
   }
 
   toggle() {
@@ -110,6 +83,7 @@ this.headerComponent.title = "Rooms View";
   ngAfterViewChecked(): void {
    //this.headerComponent.title = "Rooms View"
   }
+
 
 
 }
