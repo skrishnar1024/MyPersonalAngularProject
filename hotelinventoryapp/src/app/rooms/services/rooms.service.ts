@@ -7,17 +7,14 @@ import { AppConfig } from '../../AppConfig/appconfig.interface';
   providedIn: 'root'
 })
 export class RoomsService {
-
   constructor( @Inject(APP_SERVICE_CONFIG) private config: AppConfig) {
 
     console.log(this.config.apiEndpoint);
     console.log('Rooms Service Initialized..');
    }
-
   getRooms() {
     return this.roomList;
   }
-  
   roomList: RoomList[] = [{
     roomNumber: 1,
     roomType: 'Deluxe Room',
