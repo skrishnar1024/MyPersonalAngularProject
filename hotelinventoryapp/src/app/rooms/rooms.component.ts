@@ -2,6 +2,7 @@ import { AfterViewChecked, AfterViewInit, Component, DoCheck, OnInit, QueryList,
 import { Room, RoomList } from './room';
 import { HeaderComponent } from '../header/header.component';
 import { RoomsService } from './services/rooms.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-rooms',
@@ -34,7 +35,9 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterView
 
   ngOnInit(): void {
     //console.log(this.headerComponent)
-    this.roomList = this.roomsService.getRooms();
+    this.roomsService.getRooms().subscribe(rooms=>{
+      this.roomList = rooms ; 
+    });
   }
 
   toggle() {
@@ -50,7 +53,7 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterView
   addRoom() {
     const room: RoomList = {
 
-      roomNumber: 4,
+      roomNumber: '4',
       roomType: "Delux Room",
       amenities: "AC, TV, Kitchen, 2Bed",
       price: 2000,
