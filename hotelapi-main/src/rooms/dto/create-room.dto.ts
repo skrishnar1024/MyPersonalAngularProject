@@ -7,4 +7,15 @@ export class CreateRoomDto {
     checkinTime: Date;
     checkoutTime: Date;
     rating: number;
+
+constructor() {
+    this.roomNumber = '';
+    this.roomType = '';
+    this.amenities = '';
+    this.price = 0;
+    this.photos = '';
+    this.checkinTime = new Date();
+    this.checkoutTime = new Date();
+    this.rating = 0;
+  }
 }
