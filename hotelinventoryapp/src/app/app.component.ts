@@ -11,7 +11,6 @@ import { LocalStorageToken } from './localstorage.token';
   styleUrls: ['./app.component.scss']
   //styles: [`h1 {color: red;}`]
 })
-
 export class AppComponent implements OnInit{
 
   title = 'hotelinventoryapp';
@@ -29,7 +28,7 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    
+
     this.loggerService?.Log("AppComponent.ngOnInit()");
     console.log(this.name.nativeElement.innerText = "Hilton Hotel");
     this.localStorage.setItem('name', 'Hilton Hotel');
