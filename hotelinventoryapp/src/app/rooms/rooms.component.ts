@@ -2,7 +2,7 @@ import { AfterViewChecked, AfterViewInit, Component, DoCheck, OnInit, QueryList,
 import { Room, RoomList } from './room';
 import { HeaderComponent } from '../header/header.component';
 import { RoomsService } from './services/rooms.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject, Subscription, catchError, map, of } from 'rxjs';
 import { UpdateRoomDto } from '../../../../hotelapi-main/src/rooms/dto/update-room.dto';
 import { HttpEventType } from '@angular/common/http';
 
@@ -25,7 +25,7 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterView
     availableRooms: 10,
     bookedRooms: 5,
   };
-  roomList: RoomList[] = [];
+  roomList: RoomList[]  = [];
 
   stream = new Observable<string>((observer) => {
 
@@ -43,6 +43,24 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterView
   //roomService = new RoomsService();
 
   totalBytes = 0;
+
+  subscription! : Subscription;
+
+  error$: Subject<string> = new Subject<string>;
+
+  getError$ = this.error$.asObservable();
+
+  rooms$ = this.roomsService.getRooms$.pipe(
+    catchError((err)=>{
+      //console.log(err);
+      this.error$.next(err.message);
+      return of([]);
+    })
+  );
+
+  roomsCount$ = this.roomsService.getRooms$.pipe(
+    map((rooms) => rooms.length)
+  )
 
   constructor(@SkipSelf() private roomsService: RoomsService) { }
 
@@ -78,9 +96,9 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterView
       error: (err) => console.log(err)
     });
     this.stream.subscribe((data) => console.log(data));
-    this.roomsService.getRooms().subscribe(rooms => {
-      this.roomList = rooms;
-    });
+    //  this.roomsService.getRooms$.subscribe(rooms => {
+    //   this.roomList = rooms;
+    // });
   }
 
   toggle() {
@@ -136,10 +154,20 @@ export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterView
   }
 
   deleteRoom() {
-
-    this.roomsService.delete('2').subscribe((data) => {
+    //const lastRoom =(this.roomList[this.roomList.length -1]);
+    
+    this.roomsService.delete('a41c41b3-7217-4109-b697-f56e80a03d4b').subscribe((data) => {
       this.roomList = data;
     });
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    if(this.subscription)
+    {
+      this.subscription.unsubscribe();
+    }
   }
 
 
